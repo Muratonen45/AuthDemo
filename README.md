@@ -1,146 +1,97 @@
-# ASP.NET Core 8 - JWT Authentication API with Roles & Refresh Tokens
+# ASP.NET Core 8 JWT Authentication API with Roles and Refresh Tokens
 
-This is a backend-only RESTful API built with **ASP.NET Core 8**, implementing user authentication and authorization using **JWT** tokens with **role-based access control** and **refresh token mechanism**.
+This project is a secure and scalable authentication system built with ASP.NET Core 8 and Entity Framework Core, featuring:
 
----
-
-## ✅ Features
-
-- ✅ User registration with password hashing (BCrypt)
-- ✅ Login with JWT generation (access + refresh tokens)
-- ✅ Role-based authentication (User, Admin)
-- ✅ Token refresh endpoint
-- ✅ Secure password storage
-- ✅ WhoAmI endpoint (returns currently logged-in user info)
-- ✅ Clean DTO structure
-- ✅ SQL Server + EF Core integration
+- User registration and login
+- Password hashing with BCrypt
+- JWT access token generation including user roles (User/Admin)
+- Refresh token mechanism for renewing access tokens
+- Role-based authorization on endpoints
+- SQL Server database integration
+- Endpoints for token refresh and current user info (`whoami`)
+- Clean DTO (Data Transfer Object) pattern for request/response models
 
 ---
 
-## 🛠️ Technologies
+## Prerequisites
 
-- .NET 8
-- Entity Framework Core
-- SQL Server
-- JWT Bearer Auth
-- ASP.NET Identity (Custom lightweight version)
-- BCrypt.NET
+- .NET 8 SDK installed on your machine
+- SQL Server instance available (local or remote)
+- An API client tool like Postman for testing
 
 ---
 
-## ⚙️ Getting Started
-
-### Prerequisites
-
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-- Postman or Swagger UI
-
----
-
-## 🔧 Configuration
+## Getting Started
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Muratonen45/AuthDemo.git
 cd AuthDemo.git
+2. Configure your database connection
+Edit the appsettings.json file and update the DefaultConnection string with your SQL Server instance details:
 
 
----
-
-
-### 2. Update appsettings.json
-
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Data Source=.;Initial Catalog=MyDb;Integrated Security=True;"
-  },
-  "Jwt": {
-    "Key": "Your_Secret_Key_At_Least_32_Chars_Long!",
-    "Issuer": "YourIssuer",
-    "Audience": "YourAudience",
-    "AccessTokenExpirationMinutes": 30,
-    "RefreshTokenExpirationDays": 7
-  }
+"ConnectionStrings": {
+  "DefaultConnection": "Data Source=YOUR_SERVER;Initial Catalog=YOUR_DB;Integrated Security=True;"
 }
+3. Apply database migrations
+Make sure you have the EF Core tools installed. Then run:
 
-3. Apply Migrations & Create DB
-```bash
 dotnet ef migrations add InitialCreate
 dotnet ef database update
+This will create the database and necessary tables.
+
+4. Run the application
+
 dotnet run
+Your API will start running at https://localhost:5001 (or similar).
 
+API Endpoints
+Method	Endpoint	Description	Authorization
+POST	/api/auth/register	Register a new user	None
+POST	/api/auth/login	Login and get tokens	None
+POST	/api/auth/refresh-token	Refresh access token	None
+GET	/api/auth/whoami	Get current user information	Bearer Token (User or Admin)
 
-🧪 API Endpoints
-Method	Route	Auth Required	Description
-POST	/api/auth/register	❌	Register a new user
-POST	/api/auth/login	❌	Login and receive tokens
-POST	/api/auth/refresh-token	❌	Refresh JWT token
-GET	/api/auth/whoami	✅	Get logged-in user info
+Authentication Flow
+User registers with username, email, and password.
 
+On login, user receives an access token (JWT) and a refresh token.
 
-📦 DTO Examples
-RegisterRequest
-{
-  "userName": "john_doe",
-  "email": "john@example.com",
-  "password": "P@ssw0rd123"
-}
+Access token contains user role information.
 
-LoginRequest
-{
-  "email": "john@example.com",
-  "password": "P@ssw0rd123"
-}
+When access token expires, the client can request a new one using the refresh token.
 
-TokenResponse
-{
-  "token": "eyJhbGciOiJIUzI1...",
-  "refreshToken": "4f08b8c0-..."
-}
+whoami endpoint lets authenticated users retrieve their own info including role.
 
+Role-based Authorization
+Two roles are supported:
 
-🔐 Role Support
-Users can have a Role of:
+User: Default role for normal users.
 
-"User"
+Admin: Elevated privileges.
 
-"Admin"
+You can protect API endpoints based on roles using [Authorize(Roles = "Admin")] or [Authorize(Roles = "User,Admin")].
 
-These can be used with [Authorize(Roles = "Admin")] or [Authorize(Roles = "User")] in any controller.
+Technologies Used
+ASP.NET Core 8
 
-👤 WhoAmI Endpoint
-Returns information about the currently logged-in user based on the JWT token.
+Entity Framework Core 8
 
-GET /api/auth/whoami
-Sample Response:
-{
-  "userName": "john_doe",
-  "email": "john@example.com",
-  "role": "User"
-}
+SQL Server
 
-📌 Notes
-Tokens are signed using HMAC SHA256
+JWT (System.IdentityModel.Tokens.Jwt)
 
-BCrypt is used for password hashing
+BCrypt.Net for password hashing
 
-Refresh tokens are stored and validated with expiration time
+Notes
+Update your JWT settings in appsettings.json (Key, Issuer, Audience, expiration times).
 
+Protect your JWT secret key carefully.
 
-📁 Project Structure (Simplified)
+Use HTTPS in production for security.
 
-/AuthDemo
-│
-├── Controllers
-│   └── AuthController.cs
-├── Models
-│   ├── User.cs
-│   └── DTOs (RegisterRequest, LoginRequest, TokenResponse, etc.)
-├── Services
-│   └── TokenService.cs
-├── Data
-│   └── AppDbContext.cs
-├── Program.cs
-├── appsettings.json
-└── README.md
+This project uses clean DTOs for clear API contracts.
+
+Thank you for using this project!

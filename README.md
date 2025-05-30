@@ -49,7 +49,7 @@ cd AuthDemo.git
 ---
 
 
-2. Update appsettings.json
+### 2. Update appsettings.json
 
 {
   "ConnectionStrings": {

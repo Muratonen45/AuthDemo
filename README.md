@@ -45,6 +45,10 @@ This is a backend-only RESTful API built with **ASP.NET Core 8**, implementing u
 git clone https://github.com/Muratonen45/AuthDemo.git
 cd AuthDemo.git
 
+
+
+
+
 2. Update appsettings.json
 
 {

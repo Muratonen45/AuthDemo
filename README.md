@@ -41,9 +41,7 @@ This project is a simple but secure backend API for user authentication built wi
 
 Open appsettings.json and update the connection string:
 
-json
-Kopyala
-Düzenle
+
 "ConnectionStrings": {
   "DefaultConnection": "Data Source=YOUR_SERVER_NAME;Initial Catalog=AuthDemoDb;Integrated Security=True"
 }
@@ -66,17 +64,7 @@ POST /api/auth/refresh-token to refresh tokens
 
 GET /api/auth/whoami to get current user info (requires Authorization header)
 
-**API Endpoints**
 
-Method	Endpoint	Description	Auth Required	Roles
-
-POST	/api/auth/register	Register a new user	No	N/A
-
-POST	/api/auth/login	User login	No	N/A
-
-POST	/api/auth/refresh-token	Refresh access token	No	N/A
-
-GET	/api/auth/whoami	Get current user info	Yes	User, Admin
 
 **Technologies Used**
 
@@ -90,6 +78,7 @@ JWT Authentication
 
 BCrypt password hashing
 
+
 **Sample Request/Response**
 
 Register Request
@@ -100,12 +89,15 @@ Register Request
   "password": "StrongPassword123"
 }
 
+
 **Login Request**
 
 {
   "email": "john@example.com",
   "password": "StrongPassword123"
 }
+
+
 **Login Response**
 
 {

@@ -67,13 +67,19 @@ POST /api/auth/refresh-token to refresh tokens
 GET /api/auth/whoami to get current user info (requires Authorization header)
 
 **API Endpoints**
+
 Method	Endpoint	Description	Auth Required	Roles
+
 POST	/api/auth/register	Register a new user	No	N/A
+
 POST	/api/auth/login	User login	No	N/A
+
 POST	/api/auth/refresh-token	Refresh access token	No	N/A
+
 GET	/api/auth/whoami	Get current user info	Yes	User, Admin
 
 **Technologies Used**
+
 ASP.NET Core 8
 
 Entity Framework Core
@@ -85,6 +91,7 @@ JWT Authentication
 BCrypt password hashing
 
 **Sample Request/Response**
+
 Register Request
 
 {
@@ -92,7 +99,9 @@ Register Request
   "email": "john@example.com",
   "password": "StrongPassword123"
 }
+
 **Login Request**
+
 {
   "email": "john@example.com",
   "password": "StrongPassword123"
